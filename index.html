@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>special</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f1d3b3 0%, #f7f1e9 100%);
+    color: #4a3c2b;
+    height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  /* Login Screen */
+  #login-screen {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255 255 255 / 0.9);
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 0.15);
+    width: 100%;
+    max-width: 320px;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  #login-screen h2 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #7b4e1c;
+  }
+
+  label {
+    font-size: 1rem;
+    margin: 10px 0 6px;
+    user-select: none;
+  }
+
+  input[type="text"], input[type="password"] {
+    font-size: 1rem;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1.8px solid #c2a982;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+  }
+
+  input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #a86f31;
+  }
+
+  button {
+    margin-top: 25px;
+    background: #a86f31;
+    border: none;
+    color: white;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 6px 10px rgb(168 111 49 / 0.5);
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #7b4e1c;
+  }
+
+  /* Welcome message */
+  #welcome-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInScale 1s ease forwards;
+    text-align: center;
+    padding: 20px;
+  }
+  #welcome-screen h1 {
+    font-size: 2rem;
+    color: #7b4e1c;
+    margin-bottom: 15px;
+    animation: slideInFromLeft 1s ease forwards;
+  }
+  #welcome-screen p {
+    font-size: 1.2rem;
+    color: #a86f31;
+    animation: slideInFromRight 1s ease forwards;
+  }
+
+  /* Profile screen */
+  #profile-screen {
+    display: none;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    background: linear-gradient(180deg, #f7f1e9 0%, #e6d1b3 100%);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+    padding: 20px;
+  }
+
+  #profile-screen h2 {
+    font-size: 1.8rem;
+    color: #7b4e1c;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  #profile-info {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #4a3c2b;
+    padding: 0 10px 20px 10px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1s ease forwards;
+  }
+
+  /* Photos gallery */
+  #memories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+    gap: 15px;
+    padding: 10px 10px 50px 10px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .memory-photo {
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 10px rgb(0 0 0 / 0.1);
+    opacity: 0;
+    transform: translateY(30px);
+    animation-fill-mode: forwards;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+  }
+
+  .memory-photo img {
+    width: 100%;
+    display: block;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .memory-photo:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Animate photos on scroll */
+  .visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  @keyframes fadeInScale {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+  }
+  @keyframes slideInFromLeft {
+    from {opacity: 0; transform: translateX(-40px);}
+    to {opacity: 1; transform: translateX(0);}
+  }
+  @keyframes slideInFromRight {
+    from {opacity: 0; transform: translateX(40px);}
+    to {opacity: 1; transform: translateX(0);}
+  }
+  @keyframes fadeInUp {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  /* Scrollbar for profile */
+  #profile-screen::-webkit-scrollbar {
+    width: 8px;
+  }
+  #profile-screen::-webkit-scrollbar-track {
+    background: #f3e7d1;
+    border-radius: 10px;
+  }
+  #profile-screen::-webkit-scrollbar-thumb {
+    background: #a86f31;
+    border-radius: 10px;
+  }
+
+  /* Responsive and mobile friendly */
+  @media (max-width: 400px) {
+    #login-screen, #profile-screen {
+      max-width: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 15px;
+    }
+    #profile-info {
+      padding: 0 5px 20px 5px;
+      font-size: 1rem;
+    }
+    #memories {
+      gap: 10px;
+      grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
+      padding-bottom: 30px;
+    }
+  }
+
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Login Screen -->
+  <section id="login-screen" aria-label="Form login user">
+    <h2>Login dulu bosq</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" autocomplete="username" aria-required="true" placeholder="Masukkan username" />
+    <label for="password">Password:</label>
+    <input type="password" id="password" autocomplete="current-password" aria-required="true" placeholder="Masukkan password" />
+    <button id="login-btn" aria-label="Tombol login">Login</button>
+  </section>
+
+  <!-- Welcome Screen -->
+  <section id="welcome-screen" aria-live="polite" aria-atomic="true" role="alert">
+    <h1>WELCOME MANIEZZ!</h1>
+    <p>Terima kasih telah masuk. Memuat halaman profil...</p>
+  </section>
+
+  <!-- Profile Screen -->
+  <section id="profile-screen" tabindex="0" aria-label="Halaman profil dan kenangan">
+    <h2>Tentang Website ini</h2>
+    <div id="profile-info">
+      <p>
+        Website ini diciptakan sebagai tempat untuk menyimpan album berharga dalam kehidupan. 
+        Kenangan adalah harta yang tak ternilai, dan dengan website ini, Anda dapat merayakan kisah indah yang telah 
+        membentuk perjalanan hidup Anda. Semoga setiap gambar dan cerita di sini menghangatkan hati Anda.
+        Cuma alay sih sebenernya
+      </p>
+    </div>
+    <h2>Foto Album</h2>
+    <div id="memories" aria-label="Galeri foto kenangan">
+      <div class="memory-photo" style="animation-delay: 0.1s;"><img src="1.jpg" alt="Kenangan foto 1"></div>
+      <div class="memory-photo" style="animation-delay: 0.3s;"><img src="2.jpg" alt="Kenangan foto 2"></div>
+      <div class="memory-photo" style="animation-delay: 0.5s;"><img src="3.jpg" alt="Kenangan foto 3"></div>
+      <div class="memory-photo" style="animation-delay: 0.7s;"><img src="4.jpg" alt="Kenangan foto 4"></div>
+      <div class="memory-photo" style="animation-delay: 0.9s;"><img src="5.jpg" alt="Kenangan foto 5"></div>
+      <div class="memory-photo" style="animation-delay: 1.1s;"><img src="6.jpg" alt="Kenangan foto 6"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const loginScreen = document.getElementById('login-screen');
+  const welcomeScreen = document.getElementById('welcome-screen');
+  const profileScreen = document.getElementById('profile-screen');
+  const loginBtn = document.getElementById('login-btn');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+
+  // Basic login validation and transition
+  loginBtn.addEventListener('click', () => {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!username || !password) {
+      alert('Harap isi username dan password');
+      return;
+    }
+
+    // Animate transition to welcome screen
+    loginScreen.style.display = 'none';
+    welcomeScreen.style.display = 'flex';
+
+    // After 2 seconds show profile screen with fade/slide animations
+    setTimeout(() => {
+      welcomeScreen.style.display = 'none';
+      profileScreen.style.display = 'flex';
+
+      // Trigger animations for memories photos on scroll
+      setTimeout(() => {
+        checkPhotosInView();
+      }, 500);
+
+    }, 2000);
+  });
+
+  // Scroll animation for memory photos
+  const photos = document.querySelectorAll('.memory-photo');
+  function checkPhotosInView() {
+    const triggerBottom = window.innerHeight;
+
+    photos.forEach(photo => {
+      const rect = photo.getBoundingClientRect();
+      if (rect.top < triggerBottom - 100) {
+        photo.classList.add('visible');
+      }
+    });
+  }
+
+  profileScreen.addEventListener('scroll', () => {
+    checkPhotosInView();
+  });
+
+  // On load: keep focus on username input
+  usernameInput.focus();
+
+</script>
+</body>
+</html>
+</content>
+</create_file>
